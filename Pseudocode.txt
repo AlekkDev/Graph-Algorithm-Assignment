@@ -1,0 +1,63 @@
+Function BFSDistance() # Calculate distance between 2 vertices
+Function ReturnMaxDistance() # returns max distance between any 2 vertices
+Function IsSatisfactory() # configurable rules to determine whether the graph satsifies
+
+Function RandomAddEdges(graph):
+    vertices = graph.vertices
+    max_attempts = 1000
+
+    FOR each vertex in vertices:
+        attempt = 0
+        WHILE vertex.outdegree < 2 AND attempt < max_attempts:
+            potential_targets = GetPotentialTargets(vertices <2 indegrees, vertex)
+
+            IF potential_targets is empty:
+                Break
+	    END IF
+
+            target = RandomChoose(potential_targets)
+            AddEdge(vertex, target)
+            attempt += 1
+	END WHILE
+
+        IF vertex.outdegree < 2:
+            Print (Unsucessful after {attempt} attempts)
+	END IF
+    ENDFOR
+
+
+### Used to shuffle (remove edges) from all vertices if solution does not satisfy
+
+Function ShuffleGraph(graph):
+    FOR each vertex in graph.vertices:
+        WHILE graph.outdegrees >0:
+            target = GetTarget(vertex)
+            RemoveEdge(vertex, target)
+	END WHILE
+    ENDFOR
+
+
+## MAIN FUNCTION ##
+
+Function OptimiseGraphRndomly(graph):
+    RandomAddEdges(graph)
+    
+    WHILE NOT IsSatisfactory(graph):
+        
+        ShuffleGraph(graph)
+        RandomAddEdges(graph)
+    END WHILE
+
+    distances = ReturnMaxDistance(graph)
+    n = length(graph.vertices)
+
+    WHILE distances > LOG2(n):  # find the mathematically most optimal solution
+        ShuffleGraph(graph)
+        RandomAddEdges(graph)
+        distances = ReturnMaxDistance(graph)
+    END WHILE
+
+    Return graph
+
+
+OptimiseGraphRandomly(graph)
